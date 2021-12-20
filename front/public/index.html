@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>
+        <%= htmlWebpackPlugin.options.title %>
+    </title>
+</head>
+
+
+<body>
+    <noscript>
+      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+    <script defer src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script>
+</body>
+<script>
+    WIDGET = {
+        "CONFIG": {
+            "modules": "01234",
+            "background": "5",
+            "tmpColor": "FFFFFF",
+            "tmpSize": "16",
+            "cityColor": "FFFFFF",
+            "citySize": "16",
+            "aqiColor": "FFFFFF",
+            "aqiSize": "16",
+            "weatherIconSize": "24",
+            "alertIconSize": "18",
+            "padding": "10px 10px 10px 10px",
+            "shadow": "1",
+            "language": "auto",
+            "borderRadius": "20",
+            "fixed": "false",
+            "vertical": "center",
+            "horizontal": "left",
+            "key": "e1a513b7e9c94a7c9bec40255f38c6fd"
+        }
+    }
+</script>
+
+</html>
