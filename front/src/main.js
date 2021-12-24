@@ -2,15 +2,26 @@ import Vue from 'vue'
 import App from './App.vue'
 import 'normalize.css/normalize.css';
 import VueRouter from 'vue-router';
-import router from './router/router.js';
+import router from './router';
+import axios from 'axios'
+import 'lib-flexible' //做移动端适配
+import { Button, Tooltip, Divider, Pagination, Input } from 'element-ui';
 
-import { Button } from 'element-ui';
+axios.defaults.baseURL = 'http://127.0.0.1:8008'
+Vue.prototype.$axios = axios;
+Vue.config.productionTip = false;
 
-Vue.config.productionTip = false
 Vue.use(Button);
+Vue.use(Tooltip);
+Vue.use(Divider);
 Vue.use(VueRouter);
+Vue.use(Pagination);
+Vue.use(Input);
 
 new Vue({
     render: h => h(App),
     router,
+    beforeCreate() {
+        Vue.prototype.$bus = this //注册全局事件总线
+    }
 }).$mount('#app')

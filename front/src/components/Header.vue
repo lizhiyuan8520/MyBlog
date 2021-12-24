@@ -2,7 +2,7 @@
   <header>
       <ul>
           <li> <router-link to="/ToDoList">菜单一</router-link></li>
-          <li>菜单一</li>
+          <li><router-link to="/SourceShow">菜单一</router-link></li>
           <li>菜单一</li>
           <li>菜单一</li>
       </ul>
@@ -18,6 +18,9 @@ export default {
 
 <style lang="less" scoped>
 header{
+    position: fixed;
+    left: 0;
+    top:0;
     width: 100%;
     height: 60px;
     margin: 0 auto;
