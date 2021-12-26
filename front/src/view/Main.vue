@@ -2,7 +2,8 @@
    
   <div  id="hello" v-show="bgShow" ref="bg" >
        <Header></Header>
-    <div id="clock">
+       <transition name="clock">
+    <div id="clock" v-show="this.time.year">
       <ul>
         <li>{{time.hour | addZore}} </li>
         <li class="between">:</li>
@@ -14,7 +15,8 @@
       <div id="weather">
       <div id="he-plugin-simple"></div>
     </div>
-    </div>       
+    </div>  
+    </transition>     
   </div>
 </template>
 
@@ -43,6 +45,10 @@ export default {
   },
   created(){
     this.$dayjs=dayjs();
+    
+      this.clockTimer=setInterval(()=>{
+        this.updateTime();
+      },1000);  
   },
   methods:{
     updateTime(){
@@ -60,12 +66,17 @@ export default {
       return parseInt(val)<10?'0'+val:val;
     },
   },
+
   mounted() {
-      console.log('day',dayjs());
-      this.bgShow=true;
-      this.clockTimer=setInterval(()=>{
-        this.updateTime();
-      },1000);  
+    const s = document.createElement('script');
+    s.type = 'text/javascript';
+    s.src = 'https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0';
+    document.body.appendChild(s);//引入和风天气组件
+    this.bgShow=true;
+
+  },
+  beforeDestroy() {
+     clearInterval(this.clockTimer);
   },
 
   
@@ -82,21 +93,26 @@ export default {
 <style scoped lang="less">
   #hello{
     width: 100%;
-    height: 1200px;
+    height: 1500px;
+    position: relative;
+    left: 0;
+    top:0;
     background-image: url('../assets/images/background2.jpg');
     background-size: 100% 100%;
     /* background-attachment:fixed; */
     font-family: "BebasNeueRegular","Times New Roman",Arial, Helvetica, sans-serif;
-    font-size: 120px;
+    font-size: 150px;
     color:#fff;
     text-align:center;
     text-shadow:0 0 10px hsl(193, 81%, 49%);
     font-weight: 800;
     #clock{
-      width: 500px;
+      width: 60%;
       height: 300px;
-      margin: 0 auto;
-      transform: translateY(300px);
+      margin: 0 auto; 
+      position: relative;
+      top:30%;
+      transform: translateY(-50%);
       ul{
         display: flex;
         justify-content: center;
@@ -113,30 +129,31 @@ export default {
 
 
   }
-  .hello-enter-active {
-  transition: all 2s;
-}
+
 #weather{
   display: block;
   position: relative;
   margin: 0 auto;
-  width: 200px;
-  height: 50px;
+  // left: 50%;
+  // transform: translateX(-50%);
+  width: 300px;
+  height: 70px;
   padding: 0 10px;
-  font-size:34px !important;
+  font-size:40px !important;
 }
 .between {
   padding-left: 10px;
   padding-right: 10px;
 }
-
-.hello-enter,.hello-leave-to
-/* .slide-fade-leave-active for below version 2.1.8 */ {
-  transform: scale(1.25);
-  opacity: 0;
+.clock-enter-active{
+  transition: all 0.8s;
 }
-.hello-enter-to,.hello-leave{
-transform: scale(1);
+.clock-enter-to,.clock-leave{
   opacity: 1;
 }
+.clock-enter,.clock-leave-to{
+  opacity: 0;
+}
+
+
 </style>
