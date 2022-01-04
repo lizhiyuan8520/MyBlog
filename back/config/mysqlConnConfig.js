@@ -8,5 +8,5 @@ const ConnConfig = {
     port: 3306
 
 };
-const connection = mysql.createConnection(ConnConfig); //创建数据库连接
-module.exports = connection;
+const pool = mysql.createPool(ConnConfig);
+module.exports = pool;

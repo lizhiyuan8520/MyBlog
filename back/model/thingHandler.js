@@ -1,20 +1,23 @@
-const { json } = require('body-parser');
-const conn = require('../config/mysqlConnConfig');
-const thingsRouter = require('../router/thingsRouter');
-conn.connect(); //打开数据库连接
+// const { json } = require('body-parser');
+const pool = require('../config/mysqlConnConfig');
+// const thingsRouter = require('../router/thingsRouter');
+// conn.connect(); //打开数据库连接
 const thingHandler = {
     querySql(sql, resolve, reject, queryFlag) {
-        conn.query(sql, function(err, result) {
-            if (err) {
-                console.log('error', err);
-                reject(err);
+        pool.getConnection((err, conn) => {
+            conn.query(sql, function(err, result) {
+                if (err) {
+                    console.log('error', err);
+                    reject(err);
 
-            } else {
-                if (queryFlag) //只有执行到查询才返回数据进行渲染
-                    resolve({ code: 200, msg: 'ok~', result: result });
-            }
-
+                } else {
+                    if (queryFlag) //只有执行到查询才返回数据进行渲染
+                        resolve({ code: 200, msg: 'ok~', result: result });
+                }
+                conn.release(); //释放连接
+            })
         })
+
     },
     addThing(resolve, reject, t) {
         this.querySql(`insert into thing(id,text) values ('${t.id}','${t.text}')`, resolve, reject, false);

@@ -1,10 +1,11 @@
 <template>
   <header>
       <ul>
-          <li> <router-link to="/ToDoList">菜单一</router-link></li>
-          <li><router-link to="/SourceShow">菜单一</router-link></li>
-          <li>菜单一</li>
-          <li>菜单一</li>
+          <li> <router-link to="/ToDoList">ToDoList</router-link></li>
+          <li><router-link to="/SourceShow">Source</router-link></li>
+          <li><router-link to="/Admin">Admin</router-link></li>
+          <li><router-link to="/Main">Home</router-link></li>
+          
       </ul>
   </header>
 </template>
@@ -34,18 +35,17 @@ header{
     
     ul{
         display: flex;
-        justify-content: flex-end;
+        justify-content: center;
         
         li{
-            position: relative;
-            top: 50%; /*偏移*/
-            transform: translateY(50%);
-            width: 100px;
+            height: 60px;
+            line-height: 60px;
             font-size: 30px;
-            margin-right: 10px;
+            margin-left: 50px;
+            flex: 0 1 auto;
             &:hover{
                 background-color: rgba(0, 0, 0, 0.8);
-                text-shadow:10px 10px 10px hsl(46, 90%, 61%);
+                
             }
              a{
                 display: block;
@@ -53,6 +53,9 @@ header{
                 height: 100%;
                 font-size: 30px;
                 color:white;
+                &:hover{
+                    color: orange ;
+                }
             }
         }
 

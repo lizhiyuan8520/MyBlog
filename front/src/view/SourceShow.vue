@@ -39,6 +39,9 @@ export default {
         height: 500px;
         background-image: url('../assets/images/oceanbackground.jpg');
         background-size: 100% 100%;
+
+        background-size: cover;
+        background-position: center center;
         overflow: hidden;
         h1{
             font-size: 60px;

@@ -101,7 +101,7 @@ export default {
     background-size: 100% 100%;
     /* background-attachment:fixed; */
     font-family: "BebasNeueRegular","Times New Roman",Arial, Helvetica, sans-serif;
-    font-size: 120px;
+    font-size: 150px;
     color:#fff;
     text-align:center;
     text-shadow:0 0 10px hsl(193, 81%, 49%);

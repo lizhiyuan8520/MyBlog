@@ -1,6 +1,8 @@
 const express = require('express');
 const path = require('path');
-const thingsRouter = require('./router/thingsRouter')
+const thingsRouter = require('./router/thingsRouter');
+const userRouter = require('./router/userRouter');
+const uploadRouter = require('./router/uploadRouter')
     //引入express
 const app = express();
 //配置静态资源访问路径
@@ -12,7 +14,7 @@ app.use((req, res, next) => {
             'Access-Control-Allow-Credentials': true,
             'Access-Control-Max-Age': 1728000,
             'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
+            'Access-Control-Allow-Headers': 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With',
             'Access-Control-Allow-Methods': 'PUT,POST,GET,DELETE,OPTIONS',
             'Content-Type': 'application/json; charset=utf-8'
         })
@@ -25,6 +27,8 @@ app.get('/', (req, res) => {
     res.redirect(301, '/public/index.html')
 })
 app.use(thingsRouter); //挂载代办事件路由
+app.use(userRouter);
+app.use(uploadRouter);
 app.listen('8008', function() {
     console.log('服务已经在8008端口启动~');
 })
