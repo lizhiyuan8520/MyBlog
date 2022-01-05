@@ -72,7 +72,7 @@
         :data="this.sourceInfo"
         :before-upload="judgeSource"
         :multiple="true"
-        :auto-upload="false"
+        :auto-upload="true"
         :limit="10"
         :on-success="handleSuccess"
         :on-error="handleError"
@@ -106,6 +106,7 @@ export default {
 data() {
     return {
         filelist:[],
+        sourceimgFlag:false,
         sourceInfo:{
             title:'',
             description:'',
@@ -161,6 +162,7 @@ methods: {
         if (!isLt4M) {
           this.$message.error('上传头像图片大小不能超过 4MB!');
         }
+        this.sourceimgFlag=isJPG && isLt4M;//代表有资源图片，并且已经校验完毕
         return isJPG && isLt4M;
     },
     //Source钩子处理
@@ -204,24 +206,46 @@ methods: {
        }
        
     },
+    // handleChange(file,filelist){
+    //     this.filelist=filelist;
+    // },
     handleSuccess(res,file,filelist){
-            console.log(filelist)
-            console.log(this.filelist);
+            this.filelist=filelist;//用来检验文件是否重复
             this.$message.success("上传成功");
     },
        handleError(res,file,filelist){
             this.$message.error("上传失败");
     },
+    judgeRepeat(file){
+        return new Promise((resolve,reject)=>{
+            console.log('filelist',this.filelist);
+            this.filelist.forEach(element => {
+            if(element.name==file.name&&element.size==file.size)
+            {
+                console.log('重复资源');
+                this.$message.error("请勿重复上传！！");
+                reject();
+               
+            }
+         
+        });
+        resolve();
+        })
+        
+        
+    },
 
     
   async judgeSource(file){
-       const formflag =await  this.$refs.Form.validate();//先校验表单
-        const fileflag=this.verifyFile(file);//再校验文件
+       const formFlag =await  this.$refs.Form.validate();//先校验表单
+        const fileFlag=this.verifyFile(file);//再校验文件
         //设置要发送的资源信息
+        const repeatFlag=await this.judgeRepeat(file);
+        console.log('repeatFlag',repeatFlag);
         this.sourceInfo.uploader=this.userInfo.username;
         this.sourceInfo.uploadtime=dayjs().format("YYYY-MM-DD HH:mm:ss");
         this.sourceInfo.size=file.size;
-        return fileflag&&formflag
+        return fileFlag&&formFlag&&repeatFlag
     }
 
 },

@@ -71,6 +71,7 @@ export default {
             height: 100%;
         aside{
             flex:0 1 400px;
+            height: 100vh;
             background-color: rgb(84, 92, 100);
         }
         #content{

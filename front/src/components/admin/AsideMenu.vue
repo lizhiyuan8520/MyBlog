@@ -1,7 +1,7 @@
 <template>
   <el-menu
       default-active="/Admin/ShowUser"
-      class="el-menu-vertical-demo"
+      class="elmenu"
       background-color="#545c64"
       text-color="#fff"
       active-text-color="#ffd04b"
@@ -46,7 +46,10 @@ data() {
 </script>
 
 <style lang="less" >
-
+.elmenu{
+  width: 100%;
+  height: 100%;
+}
   
 
 .el-submenu__title{

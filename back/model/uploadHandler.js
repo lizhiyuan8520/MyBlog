@@ -27,6 +27,19 @@ const uploadHandler = {
                     resolve(req.id);
             })
         })
-    }
+    },
+    uploadSourceImg(resolve, reject, req, path) {
+        let data = req.body;
+        const sql = `updata source set imgpath=`;
+        pool.getConnection((err, conn) => {
+            conn.query(sql, (err, result) => {
+                if (err)
+                    reject(err)
+                else
+                    resolve();
+            })
+        })
+    },
+
 }
 module.exports = uploadHandler
