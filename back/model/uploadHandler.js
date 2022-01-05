@@ -24,13 +24,13 @@ const uploadHandler = {
                 if (err)
                     reject(err)
                 else
-                    resolve(req.id);
+                    resolve(id);
             })
         })
     },
     uploadSourceImg(resolve, reject, req, path) {
         let data = req.body;
-        const sql = `updata source set imgpath=`;
+        const sql = `update source set imgpath='${path}' where id='${data.sourceId}'`;
         pool.getConnection((err, conn) => {
             conn.query(sql, (err, result) => {
                 if (err)

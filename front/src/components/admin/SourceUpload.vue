@@ -10,15 +10,16 @@
          show-word-limit
          v-model="sourceInfo.title"
           autocomplete="off"
-          style="width:70%">
+          style="max-width:800px">
           </el-input>
      </el-form-item>
       <el-form-item label="资源描述" label-width="70px" prop="description">
     <el-input 
     type="textarea"
-    style="width:70%"
+    style="max-width:800px"
     maxlength="100"
     show-word-limit
+
      :autosize="{ minRows: 4, maxRows: 7}"
       v-model="sourceInfo.description"
       autocomplete="off"></el-input>
@@ -26,7 +27,7 @@
       <el-form-item label="作者/来源" label-width="70px" prop="author">
     <el-input 
     type="text"
-    style="width:70%"
+    style="max-width:800px"
     maxlength="20"
     show-word-limit
       v-model="sourceInfo.author"
@@ -44,7 +45,7 @@
         ref="sourceImg"
         name='sourceImg'
         style="margin-left:90px;border:none;"
-        :data="{id:this.userInfo.id}"
+        :data="this.sourceId"
         :multiple="false"
         :auto-upload="false"
         :limit="1"
@@ -60,14 +61,14 @@
     <p>*只能上传jpg/png文件，且不超过4M</p>
     <p>*不上传则使用默认图片</p>
     </div>
-
+  <div  class="SourceUpload">
       <el-upload
         action="http://localhost:8008/upload/Source"
         :show-file-list="true"
         ref="Source"
         name='Source'
         drag
-        style="margin-top:20px"
+        style="margin-top:20px;"
         :file-list="filelist"
         :data="this.sourceInfo"
         :before-upload="judgeSource"
@@ -79,13 +80,14 @@
         :on-exceed="handleMax"
         >
     
-    <div id="el-upload-draggger">
+  
         <i class="el-icon-upload"></i>
     <div class="el-upload__text">将文件拖到此处，或<em style="color:lightblue">点击上传</em></div>
+    </el-upload>
     </div>
   
          
-</el-upload>
+
  <div id="tips">
      <span >Tips~</span>
      <p >*图片支持上传jpg/png/gif文件，且不超过20M</p>     
@@ -101,12 +103,13 @@
 
 <script >
 import dayjs from 'dayjs';
-import { nanoid } from 'nanoid';
 export default {
 data() {
     return {
         filelist:[],
-        sourceimgFlag:false,
+        sourceId:{
+            sourceId:''
+        },
         sourceInfo:{
             title:'',
             description:'',
@@ -135,11 +138,6 @@ data() {
 
         }
 
-        
-
-        ,
-        sourceImg:'',
-
     }
 },
  computed:{
@@ -162,7 +160,6 @@ methods: {
         if (!isLt4M) {
           this.$message.error('上传头像图片大小不能超过 4MB!');
         }
-        this.sourceimgFlag=isJPG && isLt4M;//代表有资源图片，并且已经校验完毕
         return isJPG && isLt4M;
     },
     //Source钩子处理
@@ -179,7 +176,7 @@ methods: {
             else
             return false
        }
-       else if(after=='mp4'||after==avi||after==wmv){
+       else if(after=='mp4'||after=='avi'||after=='wmv'){
             if(file.size/1024/1024<500)
            {
                this.sourceInfo.category=2;
@@ -188,7 +185,7 @@ methods: {
            else
             return false
        }
-       else if(after==WMA||after==mp3||after==MPEG)
+       else if(after=='WMA'||after=='mp3'||after=='MPEG')
        { 
            if(file.size/1024/1024<20)
            {
@@ -212,6 +209,12 @@ methods: {
     handleSuccess(res,file,filelist){
             this.filelist=filelist;//用来检验文件是否重复
             this.$message.success("上传成功");
+            console.log('@@@',this.$refs.sourceImg);
+            if(this.$refs.sourceImg.uploadFiles.length!=0)
+            {
+                this.sourceId.sourceId=res.sourceId;
+                this.$refs.sourceImg.submit();
+            }
     },
        handleError(res,file,filelist){
             this.$message.error("上传失败");
@@ -224,12 +227,12 @@ methods: {
             {
                 console.log('重复资源');
                 this.$message.error("请勿重复上传！！");
-                reject();
+                reject(false);
                
             }
          
         });
-        resolve();
+        resolve(true);
         })
         
         
@@ -256,14 +259,10 @@ methods: {
 *{
     text-align: left;
 }
-.el-upload-draggger{
-    background-color: #fff;
-    border: 1px dashed #d9d9d9;
+.SourceUpload{
     border-radius: 6px;
     box-sizing: border-box;
-    margin-left: 80px;
-    width: 50vw !important;
-    height: 300px !important;
+    margin-left: 80px !important;
     text-align: center;
     cursor: pointer;
     position: relative;
@@ -288,27 +287,12 @@ methods: {
         -webkit-box-sizing: border-box;
         box-sizing: border-box;
     }
-
-    // #el-upload-draggger{
-    // background-color: #fff;
-    // border: 1px dashed #d9d9d9;
-    // border-radius: 6px;
-    // box-sizing: border-box;
-    // margin-left: 80px;
-    // width: 50vw;
-    // height: 300px;
-    // text-align: center;
-    // cursor: pointer;
-    // position: relative;
-    // overflow: hidden;
-    // }
-    
    
 }
 .el-icon-upload{
     margin-top: 40px;
     font-size: 60px;
-    color: rgb(10, 196, 243);;
+    color: rgb(10, 196, 243);
 }
 .el-upload__text{
     margin-top: 40px;

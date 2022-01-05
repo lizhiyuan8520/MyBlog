@@ -1,5 +1,5 @@
 <template>
-<div id="bg">
+<div id="bg" @keydown.enter="loginsubmit" >
  <div id="login" >
      <h3>管理系统登录</h3>
       <el-input type="text" 
@@ -17,7 +17,7 @@
       class="input"
      @blur="buttonfoucs"
       ></el-input>
-      <el-button type="primary" round ref="submitbutton" :autofocus="buttonflag" class="input" :loading="loginstate" @click="loginsubmit" @keydown.enter="loginsubmit" >登录</el-button>
+      <el-button type="primary" round ref="submitbutton" :autofocus="buttonflag" class="input" :loading="loginstate" @click="loginsubmit" >登录</el-button>
       <el-button type="text" style="display:block;margin:20px auto;" @click="gobackhome">返回首页</el-button>
   </div>
 </div>
@@ -66,7 +66,8 @@ this.$axios({
                 password:this.password
             }
         }).then((val)=>{
-            if(val.data.code==500)
+            console.log('val',val);
+            if(val.data.code!=200)
             {
             this.loginstate=false;
              this.$alert('用户名或密码错误', '错误提示', {
@@ -77,7 +78,7 @@ this.$axios({
                 console.log('val',val);
                 this.loginstate=false;
                 sessionStorage.setItem("Token", val.data.token);//将token存在localStorage中
-                sessionStorage.setItem("userInfo",JSON.stringify(val.data.result[0]) );
+                sessionStorage.setItem("userInfo",JSON.stringify(val.data.result[0]));
                 // this.$store.commit('setUserInfo',val.data.result);//将用户信息存到Vuex中
                 this.$router.replace({
                     path:'/Admin'
@@ -104,7 +105,8 @@ this.$axios({
     left:50%;
     transform:  translateX(-50%) translateY(-50%);
     width: 40%;
-    height: 500px;
+    max-width:700px;
+    max-height: 500px;
     background-color: rgba(0, 0, 0, 0.3);
     border: 2px solid #fff;
     h3{

@@ -71,7 +71,7 @@ const userHandler = {
             } else {
                 conn.query(sql,
                     function(err, result) {
-                        console.log('result', result);
+                        // console.log('result', result);
                         if (err) {
                             reject(err);
                         } else
@@ -98,7 +98,7 @@ const userHandler = {
                         } else {
                             if (result.length != 0) { //生成token
                                 token: token.setToken(t.username, result.id).then(data => {
-                                    resolve({ token: data, result: result });
+                                    resolve({ code: 200, token: data, result: result });
                                 })
                             }
                             else {

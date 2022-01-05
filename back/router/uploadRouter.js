@@ -7,7 +7,7 @@ const multer = require('multer'); //引入multer中间件来处理上传的文�
 const upload_userimg = multer({ //用户头像
     storage: multer.diskStorage({
         destination: function(req, file, cb) {
-            cb(null, './public/userimgs/')
+            cb(null, './public/UserImgs/')
         },
         filename: function(req, file, cb) {
             cb(null, file.fieldname + '_' + Date.now() + file.originalname.substring(file.originalname.indexOf('.')))
@@ -44,7 +44,7 @@ uploadRouter.post('/upload/Source', upload_Source.single('Source'), (req, res) =
             uploadHandler.uploadSource(resolve, reject, req, path);
 
         }).then(val => {
-            res.send({ code: 200, source_id: val });
+            res.send({ code: 200, sourceId: val });
         }).catch(reason => {
             console.log('reason', reason);
             res.statusCode = 500;
@@ -56,17 +56,17 @@ uploadRouter.post('/upload/Source', upload_Source.single('Source'), (req, res) =
 const upload_SourceImg = multer({ //资源位置
     storage: multer.diskStorage({
         destination: function(req, file, cb) {
-            cb(null, './public/SourceImg')
+            cb(null, './public/SourceImgs')
         },
         filename: function(req, file, cb) {
             cb(null, file.fieldname + '_' + Date.now() + file.originalname.substring(file.originalname.indexOf('.')))
         }
     }),
 });
-uploadRouter.post('/upload/SourceImg', upload_Source.single('SourceImg'), (req, res) => {
+uploadRouter.post('/upload/SourceImg', upload_SourceImg.single('sourceImg'), (req, res) => {
     let path = BASE_URL + req.file.path.split('\\').join('/');
     new Promise((resolve, reject) => {
-        uploadHandler.uploadSource(resolve, reject, req, path);
+        uploadHandler.uploadSourceImg(resolve, reject, req, path);
 
     }).then(val => {
         res.send({ code: 200, msg: 'OK~' });
