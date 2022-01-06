@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import Header from '../components/Header.vue'
+import Header from '@/components/Header.vue'
 export default {
     name:'SourceShow',
     data() {
@@ -37,9 +37,8 @@ export default {
     #header{
         width: 100%;
         height: 500px;
-        background-image: url('../assets/images/oceanbackground.jpg');
+        background-image: url('../../assets/images/oceanbackground.jpg');
         background-size: 100% 100%;
-
         background-size: cover;
         background-position: center center;
         overflow: hidden;

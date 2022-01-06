@@ -32,8 +32,8 @@
 </template>
 
 <script>
-import AsideMenu from '../components/admin/AsideMenu'
-import Header from '../components/Header.vue'
+import AsideMenu from '@/view/Admin/AsideMenu.vue'
+import Header from '@/components/Header.vue'
 export default {
     name:'Admin',
     components:{

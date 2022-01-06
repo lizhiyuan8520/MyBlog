@@ -1,20 +1,6 @@
 import VueRouter from 'vue-router';
-import ToDoList from '../view/ToDoList.vue'
-import Main from '../view/Main.vue'
-import NotFound from '../view/NotFound.vue'
-import SourceShow from '../view/SourceShow.vue'
-import Admin from '../view/Admin.vue'
-import Login from '../view/login.vue'
-import ShowUser from '../components/admin/ShowUser.vue'
-import DelUser from '../components/admin/DelUser.vue'
-import SetUser from '../components/admin/SetUser.vue'
-import AddUser from '../components/admin/AddUser.vue'
-import SourceUpload from '../components/admin/SourceUpload.vue'
 import axios from 'axios';
 //引入User组件,否则会发生两层路由越界，router-view无法显示的问题
-const User = {
-    template: `<router-view></router-view>`
-}
 const router = new VueRouter({
     routes: [{
             path: '/',
@@ -23,74 +9,77 @@ const router = new VueRouter({
 
         {
             path: '/ToDoList',
-            component: ToDoList
+            component: () =>
+                import ('@/view/ToDoList/ToDoList.vue')
         },
         {
             path: '/Main',
-            component: Main
+            component: () =>
+                import ('@/view/Main/Main.vue')
         },
         {
             path: '/SourceShow',
-            component: SourceShow
+            component: () =>
+                import ('@/view/SourceShow/SourceShow.vue')
         },
         {
             path: '/login',
-            component: Login
+            component: () =>
+                import ('@/view/Login/login.vue')
         },
 
         {
             name: 'Admin',
             path: '/Admin',
-            component: Admin,
+            component: () =>
+                import ('@/view/Admin/Admin.vue'),
             children: [{
                     name: 'ShowUser',
                     path: 'ShowUser',
-                    component: ShowUser,
+                    component: () =>
+                        import ('@/view/Admin/UserManage/ShowUser.vue'),
                 },
                 {
                     name: 'SetUser',
                     path: 'SetUser',
-                    component: SetUser,
+                    component: () =>
+                        import ('@/view/Admin/UserManage/SetUser.vue'),
                 },
                 {
                     name: 'DelUser',
                     path: 'DelUser',
-                    component: DelUser,
+                    component: () =>
+                        import ('@/view/Admin/UserManage/DelUser.vue'),
                     beforeEnter(to, from, next) {
                         //判断当前路由是否需要进行权限控制
                         if (JSON.parse(sessionStorage.getItem('userInfo')).permission) {
                             next()
                         } else {
                             alert('暂无权限查看')
-                                // next({name:'guanyu'})
                         }
-
-                        // next(from.path);
-
                     },
 
                 },
                 {
                     name: 'AddUser',
                     path: 'AddUser',
-                    component: AddUser,
+                    component: () =>
+                        import ('@/view/Admin/UserManage/AddUser.vue'),
                     beforeEnter(to, from, next) {
                         //判断当前路由是否需要进行权限控制
                         if (JSON.parse(sessionStorage.getItem('userInfo')).permission) {
                             next()
                         } else {
                             alert('暂无权限查看')
-                                // next({name:'guanyu'})
                         }
-
-                        // next(from.path);
 
                     }
                 },
                 {
                     name: 'SourceUpload',
                     path: 'SourceUpload',
-                    component: SourceUpload
+                    component: () =>
+                        import ('@/view/Admin/SourceManage/SourceUpload.vue')
                 }
             ]
         },
@@ -99,7 +88,7 @@ const router = new VueRouter({
         {
             // 会匹配所有路径
             path: '*',
-            component: NotFound
+            component: import ('@/components/NotFound.vue')
         }
 
     ]

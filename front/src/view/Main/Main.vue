@@ -22,7 +22,7 @@
 
 <script>
 import dayjs from 'dayjs';
-import Header from '../components/Header.vue';
+import Header from '@/components/Header.vue';
 export default {
   name:'Main',
   components:{
@@ -97,7 +97,7 @@ export default {
     position: relative;
     left: 0;
     top:0;
-    background-image: url('../assets/images/background2.jpg');
+    background-image: url('../../assets/images/background2.jpg');
     background-size: 100% 100%;
     /* background-attachment:fixed; */
     font-family: "BebasNeueRegular","Times New Roman",Arial, Helvetica, sans-serif;

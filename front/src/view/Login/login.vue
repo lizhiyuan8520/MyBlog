@@ -97,7 +97,7 @@ this.$axios({
 #bg{
     min-width: 100%;
     height: 100vh;
-    background-image: url('../assets/images/loginbackground.jpg');
+    background-image: url('../../assets/images/loginbackground.jpg');
     background-size: 100% 100%;
     #login{
     position: fixed;
